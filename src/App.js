@@ -14,7 +14,6 @@ import {createStructuredSelector} from 'reselect'
 
 import CheckoutPage from './pages/checkout/checkout'
 
-
 class App extends React.Component {
   constructor(){
     super();
