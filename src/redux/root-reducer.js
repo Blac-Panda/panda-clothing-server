@@ -5,14 +5,14 @@ import userReducer from './user/user-reducer';
 import cartReducer from './cart/cart.reducer'; 
 
 const persistConfig = {
-    key: 'primary',
-    storage,
+    key: 'root',
+    storage: storage,
     whitelist: ['cart']
 }
 
 const rootReducer = combineReducers({
     user: userReducer,
     cart: cartReducer
-})
+});
 
-export default persistReducer(persistConfig, rootReducer)
+export default persistReducer(persistConfig, rootReducer);
