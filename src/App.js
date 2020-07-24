@@ -4,14 +4,13 @@ import HomePage from './pages/homepage/homepage'
 import ShopPage from './pages/shop/shop'
 import Header from './components/header/header'
 import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up'
-import {auth, createUserProfileDocument} from './firebase/firebase.utils'
+import {auth, createUserProfileDocument, addCollectionAndDocuments} from './firebase/firebase.utils'
 import {Switch, Route, Redirect} from 'react-router-dom'
 
 import {connect} from 'react-redux'
 import {setCurrentUser} from './redux/user/user-actions'
 import {selectCurrentUser} from './redux/user/user.selector'
 import {createStructuredSelector} from 'reselect'
-
 import CheckoutPage from './pages/checkout/checkout'
 
 class App extends React.Component {
@@ -38,13 +37,14 @@ class App extends React.Component {
               id: snapShot.id,
               ...snapShot.data()
             }
-            )
+            ) 
           
         })
 
       }
 
       setCurrentUser(userAuth);
+      // addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({title, items})))
     })
   }
 
