@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-if (process.env.NODE_ENV !== 'production') require ('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
@@ -11,35 +11,53 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 
-if(process.env.NODE_ENV === 'production'){
-    app.use(express.static(path.join(__dirname, 'client/build')));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
 
-    app.get('*', function(req, res){
-        res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
-    })
+  app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  });
 }
 
 app.listen(port, error => {
-    if(error) throw error;
-    console.log('server running on port: ' + port);
-})
+  if (error) throw error;
+  console.log('Server running on port ' + port);
+});
 
-app.post('/payment', (req, res) => {
-    const body = {
-        source: req.body.token.id,
-        amount: req.body.amount,
-        currency: 'usd'
-    };
+// app.post('/payment', (req, res) => {
+//   const body = {
+//     source: req.body.token.id,
+//     amount: req.body.amount,
+//     currency: 'usd'
+//   };
 
-    stripe.charges.create(body, (stripeErr, stripeRes) => {
-        if (stripeErr){
-            res.status(500).send({error: stripeErr});
-        } else {
-            res.status(200).send({success: stripeRes});
-        }
+//   stripe.charges.create(body, (stripeErr, stripeRes) => {
+//     if (stripeErr) {
+//       res.status(500).send({ error: stripeErr });
+//     } else {
+//       res.status(200).send({ success: stripeRes });
+//     }
+//   });
+// });
+
+app.post("/payment", (req, res) => {
+  stripe.customers
+    .create({
+      email: req.body.email, // customer email, which user need to enter while making payment
+      source: req.body.token.id // token for the given card
     })
-})
+    .then(customer =>
+      stripe.charges.create({
+        // charge the customer
+        amount: req.body.amount,
+        description: "Sample Charge",
+        currency: "usd",
+        customer: customer.id
+      })
+    )
+    .then(charge => res.status(200).send({ success: "success" }));
+});

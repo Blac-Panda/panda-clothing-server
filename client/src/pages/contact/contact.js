@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import './contact.style.scss'
+import './contact.scss'
 import { connect } from 'react-redux'
 import { contactStart } from '../../redux/contact/contact.actions'
-import FormInput from '../../components/form-input/form-input.component'
-import CustomButton from '../../components/custom-button/custom-button.component'
+import FormInput from '../../components/form-input/form-input'
+import CustomButton from '../../components/custom-button/custom-button'
 
 const Contact = ({ contactStart }) => {
     const [userCredentials, setCredentials] = useState({ email: '', password: '', name: '' })

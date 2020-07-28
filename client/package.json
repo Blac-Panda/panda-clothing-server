@@ -3,7 +3,8 @@
   "homepage": "https://blac-panda.github.io/panda-clothing/",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://localhost:5000",
+  "proxy": "http://localhost:5000",
+  "secure": false,
   "dependencies": {
     "axios": "^0.19.2",
     "firebase": "^6.3.5",

@@ -10,8 +10,11 @@ import {Switch, Route, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {setCurrentUser} from './redux/user/user-actions'
 import {selectCurrentUser} from './redux/user/user.selector'
+import { fetchCollectionsStartAsync } from './redux/shop/shop.actions'
+import {selectIsCollectionFetching} from './redux/shop/shop.selectors'
 import {createStructuredSelector} from 'reselect'
 import CheckoutPage from './pages/checkout/checkout'
+import Contact from './pages/contact/contact'
 
 class App extends React.Component {
   constructor(){
@@ -25,7 +28,8 @@ class App extends React.Component {
   unsubscribeFromAuth = null
 
   componentDidMount(){
-    const {setCurrentUser} = this.props;
+    const {fetchCollectionsStartAsync, setCurrentUser} = this.props;
+    fetchCollectionsStartAsync()
 
     this.unsubscribeFromAuth =  
     auth.onAuthStateChanged(async userAuth => {
@@ -60,6 +64,7 @@ class App extends React.Component {
         <Route exact path="/" component={HomePage} />
         <Route path="/shop" component={ShopPage} />
         <Route exact path="/checkout" component={CheckoutPage} />
+        <Route exact path="/contact" component={Contact} />
         <Route path="/signin" render={() => this.props.currentUser ? 
           (<Redirect to='/'/>) 
           : 
@@ -71,11 +76,14 @@ class App extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
+  isCollectionFetching: selectIsCollectionFetching
 })
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+  setCurrentUser: user => dispatch(setCurrentUser(user)),
+  fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync())
 })
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
