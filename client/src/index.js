@@ -8,8 +8,8 @@ import {Provider} from 'react-redux'
 import {store, persistor} from './redux/store'
 
 ReactDOM.render(
-<Provider store={store}>
-    <BrowserRouter basename="">
+<Provider store={store} >
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
         <PersistGate persistor={persistor}>
             <App />
         </PersistGate>
