@@ -3,6 +3,7 @@ import './App.css';
 import HomePage from './pages/homepage/homepage'
 import ShopPage from './pages/shop/shop'
 import Header from './components/header/header'
+import Footer from './components/footer/footer'
 import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up'
 import {auth, createUserProfileDocument, addCollectionAndDocuments} from './firebase/firebase.utils'
 import {Switch, Route, Redirect} from 'react-router-dom'
@@ -71,6 +72,7 @@ class App extends React.Component {
           <SignInAndSignUp/>} 
           />
       </Switch>
+      <Footer/>
     </div>
   );}
 }
