@@ -6,7 +6,7 @@
   "proxy": "http://localhost:5000",
   "secure": false,
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "firebase": "^6.3.5",
     "gh-pages": "^2.1.1",
     "node-sass": "^4.12.0",
